@@ -29,8 +29,21 @@ model Bike {
   customerId String
   customer   Customer @relation(fields: [customerId], references: [customerId])
 
+  services ServiceRecord[]
 
   @@map("bikes")
 }
 
+model ServiceRecord {
+  serviceId      String    @id @default(uuid())
+  serviceDate    DateTime
+  completionDate DateTime?
+  description    String
+  status         String
 
+  // Relation
+  bikeId String
+  bike   Bike   @relation(fields: [bikeId], references: [bikeId])
+
+  @@map("service_records")
+}
