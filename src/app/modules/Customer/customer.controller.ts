@@ -9,7 +9,7 @@ const createCustomer = catchAsync(async (req: Request, res: Response) => {
     const result = await CustomerService.createCustomer(req.body);
 
     sendResponse(res, {
-      statusCode: httpStatus.OK,
+      statusCode: httpStatus.CREATED,
       success: true,
       message: "Customer created successfully",
       data: result,
@@ -27,7 +27,21 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
     });
 })
 
+const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
+    const {id} = req.params
+    const result = await CustomerService.getByIdFromDB(id)
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Customer fetched successfully",
+        data: result,
+      });
+
+})
+
 export const CustomerController = {
   createCustomer,
-  getAllFromDB
+  getAllFromDB,
+  getByIdFromDB
 };

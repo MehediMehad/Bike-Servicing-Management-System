@@ -9,6 +9,7 @@ const createCustomer = async (data: Customer) => {
 
   return result;
 };
+
 const getAllFromDB = async () => {
 
   const result = await prisma.customer.findMany()
@@ -16,7 +17,19 @@ const getAllFromDB = async () => {
   return result;
 };
 
+const getByIdFromDB = async (customerId: string) => {
+
+  const result = await prisma.customer.findUniqueOrThrow({
+    where: {
+        customerId,
+    }
+  })
+
+  return result;
+};
+
 export const CustomerService = {
   createCustomer,
-  getAllFromDB
+  getAllFromDB,
+  getByIdFromDB
 };
