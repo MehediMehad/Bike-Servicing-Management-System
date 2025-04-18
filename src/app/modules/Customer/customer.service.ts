@@ -26,14 +26,24 @@ const getByIdFromDB = async (customerId: string) => {
 };
 
 const updateIntoDB = async (customerId: string, payload: Partial<Customer>) => {
-  const updateUser = await prisma.customer.update({
+  const result = await prisma.customer.update({
     where: {
       customerId,
     },
     data: payload,
   });
 
-  return updateUser;
+  return result;
+};
+
+const deleteIntoDB = async (customerId: string) => {
+  const result = await prisma.customer.delete({
+    where: {
+      customerId,
+    }
+  });
+
+  return result;
 };
 
 export const CustomerService = {
@@ -41,4 +51,5 @@ export const CustomerService = {
   getAllFromDB,
   getByIdFromDB,
   updateIntoDB,
+  deleteIntoDB
 };

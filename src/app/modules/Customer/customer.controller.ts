@@ -53,9 +53,22 @@ const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
 
 })
 
+const deleteIntoDB = catchAsync(async (req: Request, res: Response) => {
+    const {id} = req.params
+    const result = await CustomerService.deleteIntoDB(id)
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Customer deleted successfully",
+      });
+
+})
+
 export const CustomerController = {
   createCustomer,
   getAllFromDB,
   getByIdFromDB,
-  updateIntoDB
+  updateIntoDB,
+  deleteIntoDB
 };
