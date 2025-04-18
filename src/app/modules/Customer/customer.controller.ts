@@ -40,8 +40,22 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
 
 })
 
+const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
+    const {id} = req.params
+    const result = await CustomerService.updateIntoDB(id, req.body)
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Customer updated successfully",
+        data: result,
+      });
+
+})
+
 export const CustomerController = {
   createCustomer,
   getAllFromDB,
-  getByIdFromDB
+  getByIdFromDB,
+  updateIntoDB
 };
