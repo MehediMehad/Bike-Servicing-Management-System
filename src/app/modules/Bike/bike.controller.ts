@@ -1,8 +1,8 @@
+import { BikeService } from "./bike.service";
 import { Request, Response } from "express";
 import sendResponse from "../../../shared/sendResponse";
-import httpStatus from "http-status";
 import { catchAsync } from "../../../shared/catchAsync";
-import { BikeService } from "./bike.service";
+import httpStatus from "http-status";
 
 
 const createBike= catchAsync(async (req: Request, res: Response) => {
