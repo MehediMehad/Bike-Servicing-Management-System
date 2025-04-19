@@ -15,7 +15,17 @@ const getAllFromDB = async () => {
   return result;
 };
 
+const getByIdFromDB = async (bikeId: string) => {
+  const result = await prisma.bike.findUniqueOrThrow({
+    where: {
+      bikeId
+    },
+  });
+
+  return result;
+};
 export const BikeService = {
   createBike,
-  getAllFromDB
+  getAllFromDB,
+  getByIdFromDB
 };
