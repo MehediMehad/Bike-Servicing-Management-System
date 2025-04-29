@@ -8,5 +8,6 @@ router.get('/', serviceController.getAllFromDB);
 router.get('/:id', serviceController.getByIdFromDB);
 router.put('/:id', serviceController.updateIntoDB);
 router.delete('/:id', serviceController.deleteIntoDB);
+router.get('/status ', serviceController.getPendingOrOverdueServices);
 
 export const ServiceRoutes = router;

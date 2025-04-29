@@ -58,10 +58,38 @@ const deleteIntoDB = async (serviceId: string) => {
   return result;
 };
 
+export const getPendingOrOverdueServices = async () => {
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  const result = await prisma.serviceRecord.findMany({
+    where: {
+      status: {
+        in: ["pending", "in_progress"],
+      },
+      serviceDate: {
+        lt: sevenDaysAgo,
+      },
+    },
+    select: {
+      serviceId: true,
+      bikeId: true,
+      serviceDate: true,
+      completionDate: true,
+      description: true,
+      status: true,
+    },
+  });
+
+  return result;
+};
+
+
 export const serviceService = {
   createService,
   getAllFromDB,
   getByIdFromDB,
   updateIntoDB,
   deleteIntoDB,
+  getPendingOrOverdueServices
 };

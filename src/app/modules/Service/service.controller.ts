@@ -56,10 +56,22 @@ const deleteIntoDB = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+const getPendingOrOverdueServices = catchAsync(async (req: Request, res: Response) => {
+  const result = await serviceService.getPendingOrOverdueServices();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Overdue or pending services fetched successfully",
+    data: result
+  });
+});
+
 export const serviceController = {
   createService,
   getAllFromDB,
   getByIdFromDB,
   updateIntoDB,
   deleteIntoDB,
+  getPendingOrOverdueServices
 };
