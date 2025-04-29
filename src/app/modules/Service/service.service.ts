@@ -1,5 +1,8 @@
 import { ServiceRecord, ServiceStatus } from "@prisma/client";
 import prisma from "../../../shared/prisma";
+import ApiError from "../../error/APIError";
+import httpStatus from "http-status";
+
 
 const createService = async (data: ServiceRecord) => {
   const result = await prisma.serviceRecord.create({
@@ -28,7 +31,7 @@ const updateIntoDB = async (serviceId: string, payload: {completionDate?: Date }
     where: { serviceId: serviceId },
   });
   if (!existingService) {
-    throw new Error('Service not found');
+    throw new ApiError( httpStatus.NOT_FOUND, 'Service not found');
   }
 
   const updatedService = await prisma.serviceRecord.update({
