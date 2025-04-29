@@ -10,7 +10,7 @@ const createBike = async (data: Bike) => {
 };
 
 const getAllFromDB = async () => {
-  const result = await prisma.customer.findMany();
+  const result = await prisma.bike.findMany();
 
   return result;
 };

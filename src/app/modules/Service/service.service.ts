@@ -1,4 +1,4 @@
-import { ServiceRecord } from "@prisma/client";
+import { ServiceRecord, ServiceStatus } from "@prisma/client";
 import prisma from "../../../shared/prisma";
 
 const createService = async (data: ServiceRecord) => {
@@ -22,14 +22,31 @@ const getByIdFromDB = async (serviceId: string) => {
   return result;
 };
 
-const updateIntoDB = async (serviceId: string, payload: Partial<ServiceRecord>) => {
-  const result = await prisma.serviceRecord.update({
-    where: {
-      serviceId,
-    },
-    data: payload,
+const updateIntoDB = async (serviceId: string, payload: {completionDate?: Date }) => {
+
+  const existingService = await prisma.serviceRecord.findUnique({
+    where: { serviceId: serviceId },
   });
-  return result;
+  if (!existingService) {
+    throw new Error('Service not found');
+  }
+
+  const updatedService = await prisma.serviceRecord.update({
+    where: { serviceId: serviceId },
+    data: {
+      completionDate: payload.completionDate || new Date(), 
+      status: ServiceStatus.done,
+    },
+    select: {
+      serviceId: true,
+      bikeId: true,
+      serviceDate: true,
+      completionDate: true,
+      description: true,
+      status: true,
+    },
+  });
+  return updatedService;
 };
 
 const deleteIntoDB = async (serviceId: string) => {

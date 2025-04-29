@@ -10,7 +10,7 @@ datasource db {
 model Customer {
   customerId String   @id @default(uuid())
   name       String
-  email      String
+  email      String @unique
   phone      String
   createdAt  DateTime @default(now())
 
@@ -39,11 +39,17 @@ model ServiceRecord {
   serviceDate    DateTime
   completionDate DateTime?
   description    String
-  status         String
+  status         ServiceStatus @default(pending)
 
   // Relation
   bikeId String
   bike   Bike   @relation(fields: [bikeId], references: [bikeId])
 
   @@map("service_records")
+}
+
+enum ServiceStatus {
+  pending
+  in_progress
+  done
 }
